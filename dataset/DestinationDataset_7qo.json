@@ -1,0 +1,23 @@
+{
+	"name": "DestinationDataset_7qo",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "DestinationBlobStorage",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"container": "cosmosdbbackups"
+			},
+			"compression": {
+				"type": "gzip",
+				"level": "Optimal"
+			}
+		},
+		"schema": {}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

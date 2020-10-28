@@ -1,0 +1,92 @@
+{
+	"name": "SourceDataset_7qo",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "SourceCosmosDb",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "CosmosDbSqlApiCollection",
+		"schema": {
+			"type": "object",
+			"properties": {
+				"Date": {
+					"type": "string"
+				},
+				"Location": {
+					"type": "string"
+				},
+				"MinTemp": {
+					"type": "number"
+				},
+				"MaxTemp": {
+					"type": "number"
+				},
+				"Rainfall": {
+					"type": "number"
+				},
+				"Evaporation": {
+					"type": "string"
+				},
+				"Sunshine": {
+					"type": "string"
+				},
+				"WindGustDir": {
+					"type": "string"
+				},
+				"WindGustSpeed": {
+					"type": "integer"
+				},
+				"WindDir9am": {
+					"type": "string"
+				},
+				"WindDir3pm": {
+					"type": "string"
+				},
+				"WindSpeed9am": {
+					"type": "integer"
+				},
+				"WindSpeed3pm": {
+					"type": "integer"
+				},
+				"Humidity9am": {
+					"type": "integer"
+				},
+				"Humidity3pm": {
+					"type": "integer"
+				},
+				"Pressure9am": {
+					"type": "number"
+				},
+				"Pressure3pm": {
+					"type": "number"
+				},
+				"Cloud9am": {
+					"type": "null"
+				},
+				"Cloud3pm": {
+					"type": "null"
+				},
+				"Temp9am": {
+					"type": "number"
+				},
+				"Temp3pm": {
+					"type": "number"
+				},
+				"RainToday": {
+					"type": "string"
+				},
+				"RISK_MM": {
+					"type": "number"
+				},
+				"RainTomorrow": {
+					"type": "string"
+				}
+			}
+		},
+		"typeProperties": {
+			"collectionName": "weatherAUS"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

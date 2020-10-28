@@ -1,0 +1,79 @@
+{
+	"name": "restore_from_storage_to_cosmos",
+	"properties": {
+		"activities": [
+			{
+				"name": "Copy_2t1",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [
+					{
+						"name": "Source",
+						"value": "cosmosdbbackups//"
+					},
+					{
+						"name": "Destination",
+						"value": "weatherAUS"
+					}
+				],
+				"typeProperties": {
+					"source": {
+						"type": "JsonSource",
+						"storeSettings": {
+							"type": "AzureBlobStorageReadSettings",
+							"recursive": true,
+							"wildcardFileName": {
+								"value": "@pipeline().parameters.BackupBlobName",
+								"type": "Expression"
+							}
+						},
+						"formatSettings": {
+							"type": "JsonReadSettings"
+						}
+					},
+					"sink": {
+						"type": "CosmosDbSqlApiSink",
+						"writeBehavior": "insert"
+					},
+					"enableStaging": false,
+					"enableSkipIncompatibleRow": true,
+					"validateDataConsistency": true,
+					"logStorageSettings": {
+						"linkedServiceName": {
+							"referenceName": "DestinationBlobStorage",
+							"type": "LinkedServiceReference"
+						},
+						"path": "backuplogs"
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "SourceDataset_2t1",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "DestinationDataset_2t1",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"parameters": {
+			"BackupBlobName": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"lastPublishTime": "2020-10-28T10:21:46Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}
