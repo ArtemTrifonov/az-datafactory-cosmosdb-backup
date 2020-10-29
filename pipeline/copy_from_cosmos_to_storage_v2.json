@@ -41,6 +41,7 @@
 						}
 					},
 					"enableStaging": false,
+					"parallelCopies": 100,
 					"validateDataConsistency": true,
 					"logStorageSettings": {
 						"linkedServiceName": {
@@ -49,6 +50,7 @@
 						},
 						"path": "backuplogs"
 					},
+					"dataIntegrationUnits": 4,
 					"translator": {
 						"type": "TabularTranslator",
 						"mappings": [
