@@ -10,7 +10,7 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobStorageLocation",
-				"container": "cosmosdbbackups"
+				"container": "cosmosdbbackupsv2"
 			},
 			"compression": {
 				"type": "gzip",
