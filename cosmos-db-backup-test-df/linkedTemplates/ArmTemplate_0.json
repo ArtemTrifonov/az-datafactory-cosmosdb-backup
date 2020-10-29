@@ -705,7 +705,8 @@
 									"type": "LinkedServiceReference"
 								},
 								"path": "backuplogs"
-							}
+							},
+							"dataIntegrationUnits": 8
 						},
 						"inputs": [
 							{
