@@ -378,7 +378,9 @@
 						"typeProperties": {
 							"source": {
 								"type": "CosmosDbSqlApiSource",
-								"preferredRegions": []
+								"preferredRegions": [],
+								"pageSize": 1000,
+								"detectDatetime": true
 							},
 							"sink": {
 								"type": "JsonSink",
@@ -393,7 +395,7 @@
 								}
 							},
 							"enableStaging": false,
-							"parallelCopies": 100,
+							"parallelCopies": 32,
 							"validateDataConsistency": true,
 							"logStorageSettings": {
 								"linkedServiceName": {
@@ -402,7 +404,7 @@
 								},
 								"path": "backuplogs"
 							},
-							"dataIntegrationUnits": 4,
+							"dataIntegrationUnits": 8,
 							"translator": {
 								"type": "TabularTranslator",
 								"mappings": [
