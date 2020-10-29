@@ -39,6 +39,7 @@
 						}
 					},
 					"enableStaging": false,
+					"parallelCopies": 100,
 					"validateDataConsistency": true,
 					"logStorageSettings": {
 						"linkedServiceName": {
