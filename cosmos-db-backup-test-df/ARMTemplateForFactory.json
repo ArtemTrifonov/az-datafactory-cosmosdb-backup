@@ -396,15 +396,8 @@
 							},
 							"enableStaging": false,
 							"parallelCopies": 32,
-							"validateDataConsistency": true,
-							"logStorageSettings": {
-								"linkedServiceName": {
-									"referenceName": "DestinationBlobStorage",
-									"type": "LinkedServiceReference"
-								},
-								"path": "backuplogs"
-							},
-							"dataIntegrationUnits": 8,
+							"validateDataConsistency": false,
+							"dataIntegrationUnits": 16,
 							"translator": {
 								"type": "TabularTranslator",
 								"mappings": [
