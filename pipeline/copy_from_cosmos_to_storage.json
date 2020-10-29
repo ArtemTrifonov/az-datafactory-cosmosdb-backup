@@ -47,6 +47,7 @@
 						},
 						"path": "backuplogs"
 					},
+					"dataIntegrationUnits": 8,
 					"translator": {
 						"type": "TabularTranslator",
 						"mappings": [
