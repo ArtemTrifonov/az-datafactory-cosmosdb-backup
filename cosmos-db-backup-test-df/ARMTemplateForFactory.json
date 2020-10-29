@@ -1,0 +1,741 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "cosmos-db-backup-test-df"
+		},
+		"DestinationBlobStorage_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'DestinationBlobStorage'"
+		},
+		"RestoreCosmosDb_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'RestoreCosmosDb'"
+		},
+		"SourceCosmosDb_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'SourceCosmosDb'"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/copy_from_cosmos_to_storage')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "copy_from_cosmos_to_storage",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [
+							{
+								"name": "Source",
+								"value": "weatherAUS"
+							},
+							{
+								"name": "Destination",
+								"value": "cosmosdbbackups//"
+							}
+						],
+						"typeProperties": {
+							"source": {
+								"type": "CosmosDbSqlApiSource",
+								"preferredRegions": []
+							},
+							"sink": {
+								"type": "JsonSink",
+								"storeSettings": {
+									"type": "AzureBlobStorageWriteSettings"
+								},
+								"formatSettings": {
+									"type": "JsonWriteSettings",
+									"filePattern": "arrayOfObjects"
+								}
+							},
+							"enableStaging": false,
+							"validateDataConsistency": true,
+							"logStorageSettings": {
+								"linkedServiceName": {
+									"referenceName": "DestinationBlobStorage",
+									"type": "LinkedServiceReference"
+								},
+								"path": "backuplogs"
+							},
+							"dataIntegrationUnits": 8,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"path": "$['Date']"
+										},
+										"sink": {
+											"path": "$['Date']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Location']"
+										},
+										"sink": {
+											"path": "$['Location']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['MinTemp']"
+										},
+										"sink": {
+											"path": "$['MinTemp']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['MaxTemp']"
+										},
+										"sink": {
+											"path": "$['MaxTemp']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Rainfall']"
+										},
+										"sink": {
+											"path": "$['Rainfall']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Evaporation']"
+										},
+										"sink": {
+											"path": "$['Evaporation']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Sunshine']"
+										},
+										"sink": {
+											"path": "$['Sunshine']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['WindGustDir']"
+										},
+										"sink": {
+											"path": "$['WindGustDir']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['WindGustSpeed']"
+										},
+										"sink": {
+											"path": "$['WindGustSpeed']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['WindDir9am']"
+										},
+										"sink": {
+											"path": "$['WindDir9am']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['WindDir3pm']"
+										},
+										"sink": {
+											"path": "$['WindDir3pm']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['WindSpeed9am']"
+										},
+										"sink": {
+											"path": "$['WindSpeed9am']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['WindSpeed3pm']"
+										},
+										"sink": {
+											"path": "$['WindSpeed3pm']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Humidity9am']"
+										},
+										"sink": {
+											"path": "$['Humidity9am']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Humidity3pm']"
+										},
+										"sink": {
+											"path": "$['Humidity3pm']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Pressure9am']"
+										},
+										"sink": {
+											"path": "$['Pressure9am']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Pressure3pm']"
+										},
+										"sink": {
+											"path": "$['Pressure3pm']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Cloud9am']"
+										},
+										"sink": {
+											"path": "$['Cloud9am']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Cloud3pm']"
+										},
+										"sink": {
+											"path": "$['Cloud3pm']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Temp9am']"
+										},
+										"sink": {
+											"path": "$['Temp9am']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Temp3pm']"
+										},
+										"sink": {
+											"path": "$['Temp3pm']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['RainToday']"
+										},
+										"sink": {
+											"path": "$['RainToday']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['RISK_MM']"
+										},
+										"sink": {
+											"path": "$['RISK_MM']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['RainTomorrow']"
+										},
+										"sink": {
+											"path": "$['RainTomorrow']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['id']"
+										},
+										"sink": {
+											"path": "$['id']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['_rid']"
+										},
+										"sink": {
+											"path": "$['_rid']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['_self']"
+										},
+										"sink": {
+											"path": "$['_self']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['_etag']"
+										},
+										"sink": {
+											"path": "$['_etag']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['_attachments']"
+										},
+										"sink": {
+											"path": "$['_attachments']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['_ts']"
+										},
+										"sink": {
+											"path": "$['_ts']"
+										}
+									}
+								]
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "SourceDataset_7qo",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "DestinationDataset_7qo",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"annotations": [],
+				"lastPublishTime": "2020-10-28T09:57:47Z"
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/SourceDataset_7qo')]",
+				"[concat(variables('factoryId'), '/datasets/DestinationDataset_7qo')]",
+				"[concat(variables('factoryId'), '/linkedServices/DestinationBlobStorage')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/restore_from_storage_to_cosmos')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Copy_2t1",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [
+							{
+								"name": "Source",
+								"value": "cosmosdbbackups//"
+							},
+							{
+								"name": "Destination",
+								"value": "weatherAUS"
+							}
+						],
+						"typeProperties": {
+							"source": {
+								"type": "JsonSource",
+								"storeSettings": {
+									"type": "AzureBlobStorageReadSettings",
+									"recursive": true,
+									"wildcardFileName": {
+										"value": "@pipeline().parameters.BackupBlobName",
+										"type": "Expression"
+									}
+								},
+								"formatSettings": {
+									"type": "JsonReadSettings"
+								}
+							},
+							"sink": {
+								"type": "CosmosDbSqlApiSink",
+								"writeBehavior": "insert"
+							},
+							"enableStaging": false,
+							"enableSkipIncompatibleRow": true,
+							"validateDataConsistency": true,
+							"logStorageSettings": {
+								"linkedServiceName": {
+									"referenceName": "DestinationBlobStorage",
+									"type": "LinkedServiceReference"
+								},
+								"path": "backuplogs"
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "SourceDataset_2t1",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "DestinationDataset_2t1",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"parameters": {
+					"BackupBlobName": {
+						"type": "string"
+					}
+				},
+				"annotations": [],
+				"lastPublishTime": "2020-10-28T10:21:46Z"
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/SourceDataset_2t1')]",
+				"[concat(variables('factoryId'), '/datasets/DestinationDataset_2t1')]",
+				"[concat(variables('factoryId'), '/linkedServices/DestinationBlobStorage')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DestinationDataset_2t1')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "RestoreCosmosDb",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "CosmosDbSqlApiCollection",
+				"schema": {},
+				"typeProperties": {
+					"collectionName": "weatherAUS"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/RestoreCosmosDb')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DestinationDataset_7qo')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "DestinationBlobStorage",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "Json",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"container": "cosmosdbbackups"
+					},
+					"compression": {
+						"type": "gzip",
+						"level": "Optimal"
+					}
+				},
+				"schema": {}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/DestinationBlobStorage')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SourceDataset_2t1')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "DestinationBlobStorage",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "Json",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"container": "cosmosdbbackups"
+					},
+					"compression": {
+						"type": "gzip",
+						"level": "Optimal"
+					}
+				},
+				"schema": {
+					"type": "object",
+					"properties": {
+						"Date": {
+							"type": "string"
+						},
+						"Location": {
+							"type": "string"
+						},
+						"MinTemp": {
+							"type": "number"
+						},
+						"MaxTemp": {
+							"type": "number"
+						},
+						"Rainfall": {
+							"type": "number"
+						},
+						"Evaporation": {
+							"type": "string"
+						},
+						"Sunshine": {
+							"type": "string"
+						},
+						"WindGustDir": {
+							"type": "string"
+						},
+						"WindGustSpeed": {
+							"type": "integer"
+						},
+						"WindDir9am": {
+							"type": "string"
+						},
+						"WindDir3pm": {
+							"type": "string"
+						},
+						"WindSpeed9am": {
+							"type": "integer"
+						},
+						"WindSpeed3pm": {
+							"type": "integer"
+						},
+						"Humidity9am": {
+							"type": "integer"
+						},
+						"Humidity3pm": {
+							"type": "integer"
+						},
+						"Pressure9am": {
+							"type": "number"
+						},
+						"Pressure3pm": {
+							"type": "number"
+						},
+						"Cloud9am": {
+							"type": "null"
+						},
+						"Cloud3pm": {
+							"type": "null"
+						},
+						"Temp9am": {
+							"type": "number"
+						},
+						"Temp3pm": {
+							"type": "number"
+						},
+						"RainToday": {
+							"type": "string"
+						},
+						"RISK_MM": {
+							"type": "number"
+						},
+						"RainTomorrow": {
+							"type": "string"
+						},
+						"id": {
+							"type": "string"
+						},
+						"_rid": {
+							"type": "string"
+						},
+						"_self": {
+							"type": "string"
+						},
+						"_etag": {
+							"type": "string"
+						},
+						"_attachments": {
+							"type": "string"
+						},
+						"_ts": {
+							"type": "integer"
+						}
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/DestinationBlobStorage')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SourceDataset_7qo')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SourceCosmosDb",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "CosmosDbSqlApiCollection",
+				"schema": {
+					"type": "object",
+					"properties": {
+						"Date": {
+							"type": "string"
+						},
+						"Location": {
+							"type": "string"
+						},
+						"MinTemp": {
+							"type": "number"
+						},
+						"MaxTemp": {
+							"type": "number"
+						},
+						"Rainfall": {
+							"type": "number"
+						},
+						"Evaporation": {
+							"type": "string"
+						},
+						"Sunshine": {
+							"type": "string"
+						},
+						"WindGustDir": {
+							"type": "string"
+						},
+						"WindGustSpeed": {
+							"type": "integer"
+						},
+						"WindDir9am": {
+							"type": "string"
+						},
+						"WindDir3pm": {
+							"type": "string"
+						},
+						"WindSpeed9am": {
+							"type": "integer"
+						},
+						"WindSpeed3pm": {
+							"type": "integer"
+						},
+						"Humidity9am": {
+							"type": "integer"
+						},
+						"Humidity3pm": {
+							"type": "integer"
+						},
+						"Pressure9am": {
+							"type": "number"
+						},
+						"Pressure3pm": {
+							"type": "number"
+						},
+						"Cloud9am": {
+							"type": "null"
+						},
+						"Cloud3pm": {
+							"type": "null"
+						},
+						"Temp9am": {
+							"type": "number"
+						},
+						"Temp3pm": {
+							"type": "number"
+						},
+						"RainToday": {
+							"type": "string"
+						},
+						"RISK_MM": {
+							"type": "number"
+						},
+						"RainTomorrow": {
+							"type": "string"
+						}
+					}
+				},
+				"typeProperties": {
+					"collectionName": "weatherAUS"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/SourceCosmosDb')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DestinationBlobStorage')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureBlobStorage",
+				"typeProperties": {
+					"connectionString": "[parameters('DestinationBlobStorage_connectionString')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/RestoreCosmosDb')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "CosmosDb",
+				"typeProperties": {
+					"connectionString": "[parameters('RestoreCosmosDb_connectionString')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SourceCosmosDb')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "CosmosDb",
+				"typeProperties": {
+					"connectionString": "[parameters('SourceCosmosDb_connectionString')]"
+				}
+			},
+			"dependsOn": []
+		}
+	]
+}
