@@ -1,0 +1,22 @@
+{
+	"name": "DestinationDataset_ke2",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "DestinationBlobStorage",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"container": "cosmosdbbackupsv2"
+			},
+			"compression": {
+				"type": "gzip",
+				"level": "Optimal"
+			}
+		},
+		"schema": {}
+	}
+}
