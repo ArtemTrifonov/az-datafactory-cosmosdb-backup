@@ -1190,7 +1190,7 @@
 							},
 							"enableStaging": false,
 							"parallelCopies": 4,
-							"enableSkipIncompatibleRow": true,
+							"enableSkipIncompatibleRow": false,
 							"validateDataConsistency": false,
 							"logStorageSettings": {
 								"linkedServiceName": {
