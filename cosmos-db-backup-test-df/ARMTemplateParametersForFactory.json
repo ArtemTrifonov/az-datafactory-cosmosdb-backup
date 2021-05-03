@@ -5,10 +5,16 @@
 		"factoryName": {
 			"value": "cosmos-db-backup-test-df"
 		},
+		"CosmosDb1_connectionString": {
+			"value": ""
+		},
 		"DestinationBlobStorage_connectionString": {
 			"value": ""
 		},
 		"RestoreCosmosDb_connectionString": {
+			"value": ""
+		},
+		"RestoreDB2_connectionString": {
 			"value": ""
 		},
 		"SourceCosmosDb_connectionString": {

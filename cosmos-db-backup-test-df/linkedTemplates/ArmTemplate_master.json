@@ -7,6 +7,10 @@
 			"metadata": "Data Factory name",
 			"defaultValue": "cosmos-db-backup-test-df"
 		},
+		"CosmosDb1_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'CosmosDb1'"
+		},
 		"DestinationBlobStorage_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'DestinationBlobStorage'"
@@ -14,6 +18,10 @@
 		"RestoreCosmosDb_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'RestoreCosmosDb'"
+		},
+		"RestoreDB2_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'RestoreDB2'"
 		},
 		"SourceCosmosDb_connectionString": {
 			"type": "secureString",
@@ -46,11 +54,17 @@
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
 					},
+					"CosmosDb1_connectionString": {
+						"value": "[parameters('CosmosDb1_connectionString')]"
+					},
 					"DestinationBlobStorage_connectionString": {
 						"value": "[parameters('DestinationBlobStorage_connectionString')]"
 					},
 					"RestoreCosmosDb_connectionString": {
 						"value": "[parameters('RestoreCosmosDb_connectionString')]"
+					},
+					"RestoreDB2_connectionString": {
+						"value": "[parameters('RestoreDB2_connectionString')]"
 					},
 					"SourceCosmosDb_connectionString": {
 						"value": "[parameters('SourceCosmosDb_connectionString')]"

@@ -7,6 +7,10 @@
 			"metadata": "Data Factory name",
 			"defaultValue": "cosmos-db-backup-test-df"
 		},
+		"CosmosDb1_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'CosmosDb1'"
+		},
 		"DestinationBlobStorage_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'DestinationBlobStorage'"
@@ -14,6 +18,10 @@
 		"RestoreCosmosDb_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'RestoreCosmosDb'"
+		},
+		"RestoreDB2_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'RestoreDB2'"
 		},
 		"SourceCosmosDb_connectionString": {
 			"type": "secureString",
@@ -664,8 +672,7 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/SourceDataset_ke2')]",
-				"[concat(variables('factoryId'), '/datasets/DestinationDataset_ke2')]",
-				"[concat(variables('factoryId'), '/linkedServices/DestinationBlobStorage')]"
+				"[concat(variables('factoryId'), '/datasets/DestinationDataset_ke2')]"
 			]
 		},
 		{
@@ -701,10 +708,7 @@
 								"storeSettings": {
 									"type": "AzureBlobStorageReadSettings",
 									"recursive": true,
-									"wildcardFileName": {
-										"value": "@pipeline().parameters.BackupBlobName",
-										"type": "Expression"
-									}
+									"wildcardFileName": "*"
 								},
 								"formatSettings": {
 									"type": "JsonReadSettings"
@@ -712,11 +716,13 @@
 							},
 							"sink": {
 								"type": "CosmosDbSqlApiSink",
-								"writeBehavior": "insert"
+								"writeBehavior": "upsert",
+								"disableMetricsCollection": false
 							},
 							"enableStaging": false,
+							"parallelCopies": 4,
 							"enableSkipIncompatibleRow": true,
-							"validateDataConsistency": true,
+							"validateDataConsistency": false,
 							"logStorageSettings": {
 								"linkedServiceName": {
 									"referenceName": "DestinationBlobStorage",
@@ -724,7 +730,7 @@
 								},
 								"path": "backuplogs"
 							},
-							"dataIntegrationUnits": 8
+							"dataIntegrationUnits": 16
 						},
 						"inputs": [
 							{
@@ -735,7 +741,7 @@
 						],
 						"outputs": [
 							{
-								"referenceName": "DestinationDataset_2t1",
+								"referenceName": "CosmosDbSqlApiCollection1",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
@@ -752,8 +758,28 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/SourceDataset_2t1')]",
-				"[concat(variables('factoryId'), '/datasets/DestinationDataset_2t1')]",
+				"[concat(variables('factoryId'), '/datasets/CosmosDbSqlApiCollection1')]",
 				"[concat(variables('factoryId'), '/linkedServices/DestinationBlobStorage')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/CosmosDbSqlApiCollection1')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "CosmosDb1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "CosmosDbSqlApiCollection",
+				"schema": {},
+				"typeProperties": {
+					"collectionName": "Container1"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/CosmosDb1')]"
 			]
 		},
 		{
@@ -844,11 +870,8 @@
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobStorageLocation",
-						"container": "cosmosdbbackupsv2"
-					},
-					"compression": {
-						"type": "gzip",
-						"level": "Optimal"
+						"fileName": "data_3f935b2e-f687-407e-ae5b-4aa87e32d4e6_0fa12801-1f6c-4290-bc6d-c5a792da64f3.json",
+						"container": "testrestore"
 					}
 				},
 				"schema": {
@@ -1144,6 +1167,19 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/CosmosDb1')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "CosmosDb",
+				"typeProperties": {
+					"connectionString": "[parameters('CosmosDb1_connectionString')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/DestinationBlobStorage')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
@@ -1165,6 +1201,19 @@
 				"type": "CosmosDb",
 				"typeProperties": {
 					"connectionString": "[parameters('RestoreCosmosDb_connectionString')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/RestoreDB2')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "CosmosDb",
+				"typeProperties": {
+					"connectionString": "[parameters('RestoreDB2_connectionString')]"
 				}
 			},
 			"dependsOn": []
