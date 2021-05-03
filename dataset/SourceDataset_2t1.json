@@ -10,11 +10,8 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobStorageLocation",
-				"container": "cosmosdbbackupsv2"
-			},
-			"compression": {
-				"type": "gzip",
-				"level": "Optimal"
+				"fileName": "data_3f935b2e-f687-407e-ae5b-4aa87e32d4e6_0fa12801-1f6c-4290-bc6d-c5a792da64f3.json",
+				"container": "testrestore"
 			}
 		},
 		"schema": {

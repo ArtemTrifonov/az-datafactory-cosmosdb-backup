@@ -28,11 +28,7 @@
 						"type": "JsonSource",
 						"storeSettings": {
 							"type": "AzureBlobStorageReadSettings",
-							"recursive": true,
-							"wildcardFileName": {
-								"value": "@pipeline().parameters.BackupBlobName",
-								"type": "Expression"
-							}
+							"fileListPath": "testrestore/data_3f935b2e-f687-407e-ae5b-4aa87e32d4e6_0fa12801-1f6c-4290-bc6d-c5a792da64f3.json"
 						},
 						"formatSettings": {
 							"type": "JsonReadSettings"
@@ -40,11 +36,13 @@
 					},
 					"sink": {
 						"type": "CosmosDbSqlApiSink",
-						"writeBehavior": "insert"
+						"writeBehavior": "upsert",
+						"disableMetricsCollection": false
 					},
 					"enableStaging": false,
+					"parallelCopies": 4,
 					"enableSkipIncompatibleRow": true,
-					"validateDataConsistency": true,
+					"validateDataConsistency": false,
 					"logStorageSettings": {
 						"linkedServiceName": {
 							"referenceName": "DestinationBlobStorage",
@@ -52,7 +50,7 @@
 						},
 						"path": "backuplogs"
 					},
-					"dataIntegrationUnits": 8
+					"dataIntegrationUnits": 16
 				},
 				"inputs": [
 					{
@@ -62,7 +60,7 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "DestinationDataset_2t1",
+						"referenceName": "CosmosDbSqlApiCollection1",
 						"type": "DatasetReference"
 					}
 				]
