@@ -28,7 +28,8 @@
 						"type": "JsonSource",
 						"storeSettings": {
 							"type": "AzureBlobStorageReadSettings",
-							"fileListPath": "testrestore/data_3f935b2e-f687-407e-ae5b-4aa87e32d4e6_0fa12801-1f6c-4290-bc6d-c5a792da64f3.json"
+							"recursive": true,
+							"wildcardFileName": "*"
 						},
 						"formatSettings": {
 							"type": "JsonReadSettings"
